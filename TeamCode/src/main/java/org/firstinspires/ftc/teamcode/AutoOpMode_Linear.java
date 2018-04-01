@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by chris on 4/1/18.
  */
-public class HoloOpMode_Linear extends LinearOpMode{
+public class AutoOpMode_Linear extends LinearOpMode{
 
     DcMotor aDrive;
     DcMotor bDrive;
