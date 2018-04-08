@@ -13,83 +13,96 @@ public class Auto2OpMode_Linear extends LinearOpMode{
     private DcMotor bDrive = null;
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
+    private double aPowerSent = 0;
+    private double bPowerSent = 0;
+    private double cPowerSent = 0;
+    private double dPowerSent = 0;
+
     private ElapsedTime timer = new ElapsedTime();
 
     private void pause(double seconds){
-        while(timer.time() < seconds){}
         timer.reset();
+        while(timer.time() < seconds){}
     }
 
     private void setPowerTime(double aPower, double bPower, double cPower, double dPower, double time){
-        aDrive.setPower(aPower);
-        bDrive.setPower(bPower);
-        cDrive.setPower(cPower);
-        dDrive.setPower(dPower);
-        pause(time);
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
+        printStuff();
+
+        aPowerSent = aPower;
+        bPowerSent = bPower;
+        cPowerSent = cPower;
+        dPowerSent = dPower;
+
+        aDrive.setPower(aPowerSent);
+        bDrive.setPower(bPowerSent);
+        cDrive.setPower(cPowerSent);
+        dDrive.setPower(dPowerSent);
+
+        printStuff();
+
+        timer.reset();
+        while(timer.time() < time){}
+
+        aPowerSent = 0;
+        bPowerSent = 0;
+        cPowerSent = 0;
+        dPowerSent = 0;
+
+        aDrive.setPower(aPowerSent);
+        bDrive.setPower(bPowerSent);
+        cDrive.setPower(cPowerSent);
+        dDrive.setPower(dPowerSent);
+
+        printStuff();
     }
 
     private void setPower(double aPower, double bPower, double cPower, double dPower){
-        aDrive.setPower(aPower);
-        bDrive.setPower(bPower);
-        cDrive.setPower(cPower);
-        dDrive.setPower(dPower);
+        printStuff();
+
+        aPowerSent = aPower;
+        bPowerSent = bPower;
+        cPowerSent = cPower;
+        dPowerSent = dPower;
+
+        aDrive.setPower(aPowerSent);
+        bDrive.setPower(bPowerSent);
+        cDrive.setPower(cPowerSent);
+        dDrive.setPower(dPowerSent);
+
+        printStuff();
+    }
+
+    private void printStuff(){
+        telemetry.addData("Run Time", timer.time());
+        telemetry.addData("Motors",
+                          "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f), ",
+                                        aPowerSent,     bPowerSent,         cPowerSent,         dPowerSent);
+        telemetry.update();
     }
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-
         aDrive  = hardwareMap.get(DcMotor.class, "aDrive");
         bDrive  = hardwareMap.get(DcMotor.class, "bDrive");
         cDrive  = hardwareMap.get(DcMotor.class, "cDrive");
         dDrive  = hardwareMap.get(DcMotor.class, "dDrive");
 
-
-        setPower(0,0,0,0);    //stop motors
-
         waitForStart(); //wait until button is pressed
-        timer.reset();
+
+        ///////////////////////////////////////////////////////////////     AUTO CODE:
+
+        setPowerTime(0.7,-0.7,-0.7,-0.7, 1);
+
+        pause(1);
+
+        setPowerTime(-0.7,0.7,0.7,-0.7,1);
 
 
-        aDrive.setPower(0.7);
-        bDrive.setPower(-0.7);
-        cDrive.setPower(-0.7);
-        dDrive.setPower(0.7);
-        timer.reset();
-
-        while(timer.time() < 1){}
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
-        timer.reset();
-
-        while(timer.time() < 1){}
-        aDrive.setPower(-0.7);
-        bDrive.setPower(0.7);
-        cDrive.setPower(0.7);
-        dDrive.setPower(-0.7);
-        timer.reset();
-
-        while(timer.time() < 1){}
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
-
-//
-//
-//        pause(3);   //pause for 3 seconds
-//
-//
-//        setPowerTime(-0.7,-0.7,-0.7,-0.7,3);    //spin clockwise for 3 seconds
 
 
+
+        ///////////////////////////////////////////////////////////////
     }
-
 }
