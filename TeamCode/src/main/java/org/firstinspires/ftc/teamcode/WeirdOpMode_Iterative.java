@@ -14,7 +14,7 @@ package org.firstinspires.ftc.teamcode;
 /**
  * An empty op mode serving as a template for custom OpModes
  */
-public class OrientOp extends OpMode implements SensorEventListener {
+public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener {
     private String startDate;
     private SensorManager mSensorManager;
     Sensor accelerometer;
@@ -31,7 +31,7 @@ public class OrientOp extends OpMode implements SensorEventListener {
     /*
     * Constructor
     */
-    public OrientOp() {
+    public WeirdOpMode_Iterative() {
 
     }
 
@@ -59,13 +59,9 @@ public class OrientOp extends OpMode implements SensorEventListener {
 
     }
 
-    /*
-    * This method will be called repeatedly in a loop
-    * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-    */
     @Override
     public void loop() {
-        telemetry.addData("1 Start", "OrientOp started at " + startDate);
+        telemetry.addData("1 Start", "WeirdOpMode_Iterative started at " + startDate);
         if (mGravity == null) {
             telemetry.addData("2 Gravity", "Gravity sensor values null ");
         } else {

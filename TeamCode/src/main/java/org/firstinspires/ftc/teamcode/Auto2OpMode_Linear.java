@@ -75,10 +75,11 @@ public class Auto2OpMode_Linear extends LinearOpMode{
     private void printStuff(){
         telemetry.addData("Run Time", timer.time());
         telemetry.addData("Motors",
-                          "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f), ",
+                          "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f)",
                                         aPowerSent,     bPowerSent,         cPowerSent,         dPowerSent);
         telemetry.update();
     }
+
 
 
     @Override
