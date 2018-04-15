@@ -1,18 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="AutoOpMode", group="Chris")
+@Disabled
+
 public class AutoOpMode_Linear extends LinearOpMode{
 
     private DcMotor aDrive = null;
     private DcMotor bDrive = null;
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
+
+
     private ElapsedTime timer = new ElapsedTime();
 
     private void pause(double seconds){

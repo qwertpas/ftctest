@@ -34,6 +34,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -55,7 +56,6 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -73,7 +73,31 @@ public class SensorBNO055IMU extends LinearOpMode
     // Main logic
     //----------------------------------------------------------------------------------------------
 
+
+    private DcMotor aDrive = null;
+    private DcMotor bDrive = null;
+    private DcMotor cDrive = null;
+    private DcMotor dDrive = null;
+
+
+    private void setPower(double aPower, double bPower, double cPower, double dPower){
+        aDrive.setPower(aPower);
+        bDrive.setPower(bPower);
+        cDrive.setPower(cPower);
+        dDrive.setPower(dPower);
+    }
+
     @Override public void runOpMode() {
+
+
+
+        aDrive  = hardwareMap.get(DcMotor.class, "aDrive");
+        bDrive  = hardwareMap.get(DcMotor.class, "bDrive");
+        cDrive  = hardwareMap.get(DcMotor.class, "cDrive");
+        dDrive  = hardwareMap.get(DcMotor.class, "dDrive");
+
+        setPower(0,0,0,0);    //stop motors
+
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -103,6 +127,16 @@ public class SensorBNO055IMU extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
+
+            if (Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle)) < 90){
+                setPower(0.7,0.7,0.7,0.7);    //turn motors
+
+            }else{
+                setPower(0,0,0,0);    //stop motors
+            }
+
+
+
             telemetry.update();
         }
     }

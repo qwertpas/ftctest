@@ -6,7 +6,9 @@ package org.firstinspires.ftc.teamcode;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
 
+        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
         import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
         import java.text.SimpleDateFormat;
         import java.util.Date;
@@ -14,6 +16,10 @@ package org.firstinspires.ftc.teamcode;
 /**
  * An empty op mode serving as a template for custom OpModes
  */
+@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+
+@Disabled
+
 public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener {
     private String startDate;
     private SensorManager mSensorManager;
