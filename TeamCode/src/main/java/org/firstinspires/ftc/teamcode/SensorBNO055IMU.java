@@ -55,7 +55,8 @@ import java.util.Locale;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
+
+@Autonomous(name = "IMU turning", group = "Sensor")
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -87,7 +88,8 @@ public class SensorBNO055IMU extends LinearOpMode
         dDrive.setPower(dPower);
     }
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
 
 
@@ -99,20 +101,17 @@ public class SensorBNO055IMU extends LinearOpMode
         setPower(0,0,0,0);    //stop motors
 
 
-        // Set up the parameters with which we will use our IMU. Note that integration
-        // algorithm here just reports accelerations to the logcat log; it doesn't actually
-        // provide positional information.
+        // Set up the parameters for how the IMU is going to give info
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
+        //Initialize the IMU
+        // Make sure it is configured on robot as IC2 port 0 "Expansion Hub Internal IMU" and named "imu"
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
@@ -122,15 +121,14 @@ public class SensorBNO055IMU extends LinearOpMode
         // Wait until we're told to go
         waitForStart();
 
-        // Start the logging of measured acceleration
+        // Start the logging of measured acceleration which is its own thread that keeps on running
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
 
-            if (Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle)) < 90){
+            if (angles.firstAngle < 90){
                 setPower(0.7,0.7,0.7,0.7);    //turn motors
-
             }else{
                 setPower(0,0,0,0);    //stop motors
             }
@@ -208,11 +206,11 @@ public class SensorBNO055IMU extends LinearOpMode
     // Formatting
     //----------------------------------------------------------------------------------------------
 
-    String formatAngle(AngleUnit angleUnit, double angle) {
+    private String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees){
+    private String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

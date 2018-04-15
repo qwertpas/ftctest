@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="AutoOpMode", group="Chris")
-@Disabled
+//@Disabled
 
 public class AutoOpMode_Linear extends LinearOpMode{
 

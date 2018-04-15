@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="AutoOpMode", group="Chris")
-@Disabled
+//@Disabled
 public class Auto2OpMode_Linear extends LinearOpMode{
 
     private DcMotor aDrive = null;
