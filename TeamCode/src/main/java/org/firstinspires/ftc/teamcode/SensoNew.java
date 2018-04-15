@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -48,7 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import java.util.Locale;
 
 /**
- * {@link SensorBNO055IMU} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
+ * {@link SensoNew} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
@@ -57,7 +56,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name = "IMU turning", group = "Sensor")
-public class SensorBNO055IMU extends LinearOpMode
+public class SensoNew extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
     // State
@@ -79,6 +78,8 @@ public class SensorBNO055IMU extends LinearOpMode
     private DcMotor bDrive = null;
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
+
+    private double heading = 0;
 
 
     private void setPower(double aPower, double bPower, double cPower, double dPower){
@@ -104,111 +105,40 @@ public class SensorBNO055IMU extends LinearOpMode
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parameters.loggingEnabled      = false;
 
         //Initialize the IMU
         // Make sure it is configured on robot as IC2 port 0 "Expansion Hub Internal IMU" and named "imu"
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        // Set up our telemetry dashboard
-        composeTelemetry();
-
         // Wait until we're told to go
         waitForStart();
 
-        // Start the logging of measured acceleration which is its own thread that keeps on running
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        // Loop and update the dashboard
         while (opModeIsActive()) {
+            heading = formatAngle(AngleUnit.DEGREES, angles.firstAngle);
 
-            if (angles.firstAngle < 90){
+
+            if (heading < 90){
                 setPower(0.7,0.7,0.7,0.7);    //turn motors
             }else{
                 setPower(0,0,0,0);    //stop motors
             }
 
 
+            telemetry.addData("Current Heading", heading);
+            telemetry.addData("angles.firstAngle", angles.firstAngle);
 
             telemetry.update();
         }
     }
 
-    //----------------------------------------------------------------------------------------------
-    // Telemetry Configuration
-    //----------------------------------------------------------------------------------------------
 
-    void composeTelemetry() {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() { @Override public void run()
-                {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity  = imu.getGravity();
-                }
-            });
-
-        telemetry.addLine()
-            .addData("status", new Func<String>() {
-                @Override public String value() {
-                    return imu.getSystemStatus().toShortString();
-                    }
-                })
-            .addData("calib", new Func<String>() {
-                @Override public String value() {
-                    return imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-            .addData("heading", new Func<String>() {
-                @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-            .addData("roll", new Func<String>() {
-                @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-            .addData("pitch", new Func<String>() {
-                @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
-        telemetry.addLine()
-            .addData("grvty", new Func<String>() {
-                @Override public String value() {
-                    return gravity.toString();
-                    }
-                })
-            .addData("mag", new Func<String>() {
-                @Override public String value() {
-                    return String.format(Locale.getDefault(), "%.3f",
-                            Math.sqrt(gravity.xAccel*gravity.xAccel
-                                    + gravity.yAccel*gravity.yAccel
-                                    + gravity.zAccel*gravity.zAccel));
-                    }
-                });
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // Formatting
-    //----------------------------------------------------------------------------------------------
-
-    private String formatAngle(AngleUnit angleUnit, double angle) {
+    private double formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    private String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    private double formatDegrees(double degrees){
+        return AngleUnit.DEGREES.normalize(degrees);
     }
 }

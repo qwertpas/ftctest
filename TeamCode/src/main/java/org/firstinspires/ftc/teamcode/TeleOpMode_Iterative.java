@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
@@ -38,23 +40,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-/**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all iterative OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
+import java.util.Arrays;
+
 
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-@Disabled
 public class TeleOpMode_Iterative extends OpMode
 {
     // Declare OpMode members.
@@ -64,28 +58,46 @@ public class TeleOpMode_Iterative extends OpMode
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
 
+    BNO055IMU imu;
+    Orientation angles;
+
+
+
     private double aPower = 0;
     private double bPower = 0;
     private double cPower = 0;
     private double dPower = 0;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
+    private double[] coordPowers = {0,0};
+    private double movementAngle = 0;
+
+    private double xPower = 0;
+    private double yPower = 0;
+
+
+
+
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "Initializing");
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
         aDrive = hardwareMap.get(DcMotor.class, "aDrive");
         bDrive = hardwareMap.get(DcMotor.class, "bDrive");
         cDrive = hardwareMap.get(DcMotor.class, "cDrive");
         dDrive = hardwareMap.get(DcMotor.class, "dDrive");
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        // Tell the driver that initialization is complete.
+        // Make sure IMU is configured on robot as IC2 port 0 "Expansion Hub Internal IMU" and named "imu"
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
         telemetry.addData("Status", "Initialized");
     }
 
@@ -109,24 +121,34 @@ public class TeleOpMode_Iterative extends OpMode
      */
     @Override
     public void loop() {
-        // Setup a variable for each drive wheel to save power level for telemetry
+
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        coordPowers = Drive.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y,angles.firstAngle);
+
+        movementAngle = Math.atan2(coordPowers[1],coordPowers[0]);
+
+        //range clipping just in case it goes out of range, which is unlikely
+        aPower = Range.clip(coordPowers[0], -1.0, 1.0) ;
+        bPower = Range.clip(coordPowers[1], -1.0, 1.0) ;
+        cPower = Range.clip(coordPowers[1], -1.0, 1.0) ;
+        dPower = Range.clip(coordPowers[0], -1.0, 1.0) ;
+
+        // Send calculated power to wheels
+        aDrive.setPower(aPower);
+        bDrive.setPower(bPower);
+        cDrive.setPower(cPower);
+        dDrive.setPower(dPower);
 
 
-
-
-//        aPower = Range.clip((powerScale * -gamepad1.left_stick_y) - -gamepad1.left_stick_y, -1.0, 1.0) ;
-//        bPower = Range.clip(-gamepad1.left_stick_y - -gamepad1.left_stick_y, -1.0, 1.0) ;
-//        aPower = Range.clip(-gamepad1.left_stick_y - -gamepad1.left_stick_y, -1.0, 1.0) ;
-//        bPower = Range.clip(-gamepad1.left_stick_y - -gamepad1.left_stick_y, -1.0, 1.0) ;
-//
-//
-//        // Send calculated power to wheels
-//        leftDrive.setPower(leftPower);
-//        rightDrive.setPower(rightPower);
-//
-//        // Show the elapsed game time and wheel power.
-//        telemetry.addData("Status", "Run Time: " + runtime.toString());
-//        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        // Show the elapsed time, wheel powers, heading, coordPowers, and angle it is moving in.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Current Heading", angles.firstAngle);
+        telemetry.addData("Movement Point", Arrays.toString(coordPowers));
+        telemetry.addData("Movement Angle", movementAngle);
+        telemetry.addData("Motors",
+                "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f)",
+                            aPower,             bPower,             cPower,         dPower);
     }
 
     /*
