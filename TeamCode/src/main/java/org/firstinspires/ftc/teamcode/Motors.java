@@ -33,20 +33,20 @@ public class Motors {
     }
 
     public void right(double right) {
-        aDrive.setPower(-right);
-        bDrive.setPower(-right);
-        cDrive.setPower(right);
-        dDrive.setPower(right);
+        aDrive.setPower(right);
+        bDrive.setPower(right);
+        cDrive.setPower(-right);
+        dDrive.setPower(-right);
     }
 
-    public void forwardright(double amount) {
+    public void forwardleft(double amount) {
         aDrive.setPower(-amount);
         bDrive.setPower(0);
         cDrive.setPower(amount);
         dDrive.setPower(0);
     }
 
-    public void forwardleft(double amount) {
+    public void forwardright(double amount) {
         aDrive.setPower(0);
         bDrive.setPower(amount);
         cDrive.setPower(0);
