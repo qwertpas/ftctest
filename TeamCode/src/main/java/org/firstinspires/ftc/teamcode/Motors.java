@@ -25,10 +25,66 @@ public class Motors {
         this.dDrive = dDrive;
     }
 
-    public void setMotors(double forward, double right) {
-        aDrive.setPower(forward);
-        bDrive.setPower(-forward);
-        cDrive.setPower(-forward);
-        dDrive.setPower(forward);
+    public void forward(double forward) {
+        aDrive.setPower(-forward);
+        bDrive.setPower(forward);
+        cDrive.setPower(forward);
+        dDrive.setPower(-forward);
+    }
+
+    public void right(double right) {
+        aDrive.setPower(-right);
+        bDrive.setPower(-right);
+        cDrive.setPower(right);
+        dDrive.setPower(right);
+    }
+
+    public void forwardright(double amount) {
+        aDrive.setPower(-amount);
+        bDrive.setPower(0);
+        cDrive.setPower(amount);
+        dDrive.setPower(0);
+    }
+
+    public void forwardleft(double amount) {
+        aDrive.setPower(0);
+        bDrive.setPower(amount);
+        cDrive.setPower(0);
+        dDrive.setPower(-amount);
+    }
+
+    public void clearmotors() {
+        aDrive.setPower(0);
+        bDrive.setPower(0);
+        cDrive.setPower(0);
+        dDrive.setPower(0);
+    }
+
+    public void aMotor() {
+        aDrive.setPower(1);
+        bDrive.setPower(0);
+        cDrive.setPower(0);
+        dDrive.setPower(0);
+    }
+
+    public void bMotor() {
+        aDrive.setPower(0);
+        bDrive.setPower(1);
+        cDrive.setPower(0);
+        dDrive.setPower(0);
+    }
+
+    public void cMotor() {
+        aDrive.setPower(0);
+        bDrive.setPower(0);
+        cDrive.setPower(1);
+        dDrive.setPower(0);
+    }
+
+    public void dMotor() {
+        aDrive.setPower(0);
+        bDrive.setPower(0);
+        cDrive.setPower(0);
+        dDrive.setPower(1);
     }
 }

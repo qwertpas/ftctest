@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "AutoOpMode", group = "Chris")
+@Autonomous(name = "AutooOpMode", group = "Chris")
 public class Auto1OpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;
@@ -51,29 +51,52 @@ public class Auto1OpMode_Linear extends LinearOpMode {
 
         moto = new Motors(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
 
-
-        moto.setMotors(0, 0);    //stop motors
+        moto.clearmotors();
 
         waitForStart(); //wait until button is pressed
         timer.reset();
 
-
-        moto.setMotors(0.7, 0);
+        moto.forward(0.3);
         timer.reset();
-
         while (timer.time() < 1) {
         }
-        moto.setMotors(0, 0);
-        timer.reset();
 
+        moto.forward(-0.3);
+        timer.reset();
         while (timer.time() < 1) {
         }
-        moto.setMotors(-0.7, 0);
-        timer.reset();
 
+        moto.right(0.3);
+        timer.reset();
         while (timer.time() < 1) {
         }
-        moto.setMotors(0, 0);
+
+        moto.right(-0.3);
+        timer.reset();
+        while (timer.time() < 1) {
+        }
+
+        moto.forwardright(0.5);
+        timer.reset();
+        while (timer.time() < 1) {
+        }
+
+        moto.forwardright(-0.5);
+        timer.reset();
+        while (timer.time() < 1) {
+        }
+
+        moto.forwardleft(0.5);
+        timer.reset();
+        while (timer.time() < 1) {
+        }
+
+        moto.forwardleft(-0.5);
+        timer.reset();
+        while (timer.time() < 1) {
+        }
+
+        moto.clearmotors();
 
 //
 //
