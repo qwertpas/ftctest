@@ -7,23 +7,25 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="AutoOpMode", group="Chris")
-public class Auto1OpMode_Linear extends LinearOpMode{
+@Autonomous(name = "AutoOpMode", group = "Chris")
+public class Auto1OpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;
     private DcMotor bDrive = null;
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
+    private Motors moto = null;
 
 
     private ElapsedTime timer = new ElapsedTime();
 
-    private void pause(double seconds){
-        while(timer.time() < seconds){}
+    private void pause(double seconds) {
+        while (timer.time() < seconds) {
+        }
         timer.reset();
     }
 
-    private void setPowerTime(double aPower, double bPower, double cPower, double dPower, double time){
+    private void setPowerTime(double aPower, double bPower, double cPower, double dPower, double time) {
         aDrive.setPower(aPower);
         bDrive.setPower(bPower);
         cDrive.setPower(cPower);
@@ -35,7 +37,7 @@ public class Auto1OpMode_Linear extends LinearOpMode{
         dDrive.setPower(0);
     }
 
-    private void setPower(double aPower, double bPower, double cPower, double dPower){
+    private void setPower(double aPower, double bPower, double cPower, double dPower) {
         aDrive.setPower(aPower);
         bDrive.setPower(bPower);
         cDrive.setPower(cPower);
@@ -47,43 +49,31 @@ public class Auto1OpMode_Linear extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
 
-        aDrive  = hardwareMap.get(DcMotor.class, "aDrive");
-        bDrive  = hardwareMap.get(DcMotor.class, "bDrive");
-        cDrive  = hardwareMap.get(DcMotor.class, "cDrive");
-        dDrive  = hardwareMap.get(DcMotor.class, "dDrive");
+        moto = new Motors(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
 
 
-        setPower(0,0,0,0);    //stop motors
+        moto.setMotors(0, 0);    //stop motors
 
         waitForStart(); //wait until button is pressed
         timer.reset();
 
 
-        aDrive.setPower(0.7);
-        bDrive.setPower(-0.7);
-        cDrive.setPower(-0.7);
-        dDrive.setPower(0.7);
+        moto.setMotors(0.7, 0);
         timer.reset();
 
-        while(timer.time() < 1){}
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
+        while (timer.time() < 1) {
+        }
+        moto.setMotors(0, 0);
         timer.reset();
 
-        while(timer.time() < 1){}
-        aDrive.setPower(-0.7);
-        bDrive.setPower(0.7);
-        cDrive.setPower(0.7);
-        dDrive.setPower(-0.7);
+        while (timer.time() < 1) {
+        }
+        moto.setMotors(-0.7, 0);
         timer.reset();
 
-        while(timer.time() < 1){}
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
+        while (timer.time() < 1) {
+        }
+        moto.setMotors(0, 0);
 
 //
 //
