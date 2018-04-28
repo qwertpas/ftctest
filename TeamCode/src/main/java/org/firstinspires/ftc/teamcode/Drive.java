@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-
 public class Drive {
 
-    public static void pause(double seconds){
+    public static void pause(double seconds) {
         ElapsedTime pauseTimer = new ElapsedTime();
         pauseTimer.reset();
-        while(pauseTimer.time() < seconds){}
+        while (pauseTimer.time() < seconds) {
+        }
     }
 
-    public static double[] circleToSquare(double u, double v){
+    public static double[] circleToSquare(double u, double v) {
         double u2 = u * u;
         double v2 = v * v;
         double twosqrt2 = 2.0 * Math.sqrt(2.0);
@@ -24,7 +24,7 @@ public class Drive {
         double termy2 = subtermy - v * twosqrt2;
         double x = (0.5 * Math.sqrt(termx1) - 0.5 * Math.sqrt(termx2));
         double y = (0.5 * Math.sqrt(termy1) - 0.5 * Math.sqrt(termy2));
-        return new double[]  {x, y};
+        return new double[]{x, y};
     }
 
 

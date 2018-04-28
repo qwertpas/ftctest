@@ -1,22 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
 
-        import android.hardware.Sensor;
-        import android.hardware.SensorEvent;
-        import android.hardware.SensorEventListener;
-        import android.hardware.SensorManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-        import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * An empty op mode serving as a template for custom OpModes
  */
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@TeleOp(name = "Basic: Linear OpMode", group = "Linear Opmode")
 
 @Disabled
 
@@ -42,7 +42,7 @@ public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener
     }
 
 
-    public void init(){
+    public void init() {
 
     }
 
@@ -71,16 +71,16 @@ public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener
         if (mGravity == null) {
             telemetry.addData("2 Gravity", "Gravity sensor values null ");
         } else {
-            telemetry.addData("2 Gravity", "Gravity sensor returning values " );
+            telemetry.addData("2 Gravity", "Gravity sensor returning values ");
         }
         if (mGravity == null) {
             telemetry.addData("3 Geomagnetic", "Geomagnetic sensor values null ");
         } else {
-            telemetry.addData("3 Geomagnetic", "Geomagnetic sensor returning values " );
+            telemetry.addData("3 Geomagnetic", "Geomagnetic sensor returning values ");
         }
-        telemetry.addData("4 azimut", "azimut = "+Math.round(Math.toDegrees(azimut)));
-        telemetry.addData("5 pitch", "pitch = "+Math.round(Math.toDegrees(pitch)));
-        telemetry.addData("6 roll", "roll = "+Math.round(Math.toDegrees(roll)));
+        telemetry.addData("4 azimut", "azimut = " + Math.round(Math.toDegrees(azimut)));
+        telemetry.addData("5 pitch", "pitch = " + Math.round(Math.toDegrees(pitch)));
+        telemetry.addData("6 roll", "roll = " + Math.round(Math.toDegrees(roll)));
     }
 
     /*

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name = "AutooOpMode", group = "Chris")
+@Disabled
 public class Auto1OpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;
@@ -20,8 +21,7 @@ public class Auto1OpMode_Linear extends LinearOpMode {
     private ElapsedTime timer = new ElapsedTime();
 
     private void pause(double seconds) {
-        while (timer.time() < seconds) {
-        }
+        while (timer.time() < seconds) {}
         timer.reset();
     }
 
@@ -60,13 +60,14 @@ public class Auto1OpMode_Linear extends LinearOpMode {
         timer.reset();
         while (timer.time() < 1) {
         }
+        moto.stop();
 
-        moto.forward(-0.3);
+        moto.right(0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
 
-        moto.right(0.3);
+        moto.forward(-0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
@@ -76,25 +77,26 @@ public class Auto1OpMode_Linear extends LinearOpMode {
         while (timer.time() < 1) {
         }
 
-        moto.forwardright(0.5);
+        moto.forward(0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
 
-        moto.forwardright(-0.5);
+        moto.right(0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
 
-        moto.forwardleft(0.5);
+        moto.forward(-0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
 
-        moto.forwardleft(-0.5);
+        moto.right(-0.3);
         timer.reset();
         while (timer.time() < 1) {
         }
+
 
         moto.clearmotors();
 

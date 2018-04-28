@@ -25,6 +25,14 @@ public class Motors {
         this.dDrive = dDrive;
     }
 
+    public void stop() {
+        aDrive.setPower(0);
+        bDrive.setPower(0);
+        cDrive.setPower(0);
+        dDrive.setPower(0);
+    }
+
+
     public void forward(double forward) {
         aDrive.setPower(-forward);
         bDrive.setPower(forward);

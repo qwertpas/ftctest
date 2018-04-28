@@ -48,10 +48,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import java.util.Arrays;
 
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@TeleOp(name = "Basic: Iterative OpMode", group = "Iterative Opmode")
 @Disabled
-public class TeleOpMode_Iterative extends OpMode
-{
+public class TeleOpMode_Iterative extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor aDrive = null;
@@ -63,19 +62,16 @@ public class TeleOpMode_Iterative extends OpMode
     Orientation angles;
 
 
-
     private double aPower = 0;
     private double bPower = 0;
     private double cPower = 0;
     private double dPower = 0;
 
-    private double[] coordPowers = {0,0};
+    private double[] coordPowers = {0, 0};
     private double movementAngle = 0;
 
     private double xPower = 0;
     private double yPower = 0;
-
-
 
 
     @Override
@@ -88,11 +84,11 @@ public class TeleOpMode_Iterative extends OpMode
         dDrive = hardwareMap.get(DcMotor.class, "dDrive");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Make sure IMU is configured on robot as IC2 port 0 "Expansion Hub Internal IMU" and named "imu"
@@ -125,15 +121,15 @@ public class TeleOpMode_Iterative extends OpMode
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        coordPowers = Drive.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y,angles.firstAngle);
+        coordPowers = Drive.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y, angles.firstAngle);
 
-        movementAngle = Math.atan2(coordPowers[1],coordPowers[0]);
+        movementAngle = Math.atan2(coordPowers[1], coordPowers[0]);
 
         //range clipping just in case it goes out of range, which is unlikely
-        aPower = Range.clip(coordPowers[0], -1.0, 1.0) ;
-        bPower = Range.clip(coordPowers[1], -1.0, 1.0) ;
-        cPower = Range.clip(coordPowers[1], -1.0, 1.0) ;
-        dPower = Range.clip(coordPowers[0], -1.0, 1.0) ;
+        aPower = Range.clip(coordPowers[0], -1.0, 1.0);
+        bPower = Range.clip(coordPowers[1], -1.0, 1.0);
+        cPower = Range.clip(coordPowers[1], -1.0, 1.0);
+        dPower = Range.clip(coordPowers[0], -1.0, 1.0);
 
         // Send calculated power to wheels
         aDrive.setPower(aPower);
@@ -149,7 +145,7 @@ public class TeleOpMode_Iterative extends OpMode
         telemetry.addData("Movement Angle", movementAngle);
         telemetry.addData("Motors",
                 "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f)",
-                            aPower,             bPower,             cPower,         dPower);
+                aPower, bPower, cPower, dPower);
     }
 
     /*

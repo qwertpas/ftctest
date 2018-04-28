@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="AutoOpMode", group="Chris")
+@Autonomous(name = "AutoOpMode", group = "Chris")
 @Disabled
-public class Auto2OpMode_Linear extends LinearOpMode{
+public class Auto2OpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;
     private DcMotor bDrive = null;
@@ -22,12 +22,13 @@ public class Auto2OpMode_Linear extends LinearOpMode{
 
     private ElapsedTime timer = new ElapsedTime();
 
-    private void pause(double seconds){
+    private void pause(double seconds) {
         timer.reset();
-        while(timer.time() < seconds){}
+        while (timer.time() < seconds) {
+        }
     }
 
-    private void setPowerTime(double aPower, double bPower, double cPower, double dPower, double time){
+    private void setPowerTime(double aPower, double bPower, double cPower, double dPower, double time) {
         printStuff();
 
         aPowerSent = aPower;
@@ -43,7 +44,8 @@ public class Auto2OpMode_Linear extends LinearOpMode{
         printStuff();
 
         timer.reset();
-        while(timer.time() < time){}
+        while (timer.time() < time) {
+        }
 
         aPowerSent = 0;
         bPowerSent = 0;
@@ -58,7 +60,7 @@ public class Auto2OpMode_Linear extends LinearOpMode{
         printStuff();
     }
 
-    private void setPower(double aPower, double bPower, double cPower, double dPower){
+    private void setPower(double aPower, double bPower, double cPower, double dPower) {
         printStuff();
 
         aPowerSent = aPower;
@@ -74,36 +76,32 @@ public class Auto2OpMode_Linear extends LinearOpMode{
         printStuff();
     }
 
-    private void printStuff(){
+    private void printStuff() {
         telemetry.addData("Run Time", timer.time());
         telemetry.addData("Motors",
-                          "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f)",
-                                        aPowerSent,     bPowerSent,         cPowerSent,         dPowerSent);
+                "aPowerSent (%.2f), bPowerSent (%.2f), cPowerSent (%.2f), dPowerSent (%.2f)",
+                aPowerSent, bPowerSent, cPowerSent, dPowerSent);
         telemetry.update();
     }
-
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        aDrive  = hardwareMap.get(DcMotor.class, "aDrive");
-        bDrive  = hardwareMap.get(DcMotor.class, "bDrive");
-        cDrive  = hardwareMap.get(DcMotor.class, "cDrive");
-        dDrive  = hardwareMap.get(DcMotor.class, "dDrive");
+        aDrive = hardwareMap.get(DcMotor.class, "aDrive");
+        bDrive = hardwareMap.get(DcMotor.class, "bDrive");
+        cDrive = hardwareMap.get(DcMotor.class, "cDrive");
+        dDrive = hardwareMap.get(DcMotor.class, "dDrive");
 
         waitForStart(); //wait until button is pressed
 
         ///////////////////////////////////////////////////////////////     AUTO CODE:
 
-        setPowerTime(0.7,-0.7,-0.7,-0.7, 1);
+        setPowerTime(0.7, -0.7, -0.7, -0.7, 1);
 
         pause(1);
 
-        setPowerTime(-0.7,0.7,0.7,-0.7,1);
-
-
-
+        setPowerTime(-0.7, 0.7, 0.7, -0.7, 1);
 
 
         ///////////////////////////////////////////////////////////////

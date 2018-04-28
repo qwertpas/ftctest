@@ -49,7 +49,7 @@ import java.util.Locale;
 
 /**
  * {@link SensoNew} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  *
@@ -58,8 +58,7 @@ import java.util.Locale;
 
 @Autonomous(name = "IMU turning", group = "Sensor")
 @Disabled
-public class SensoNew extends LinearOpMode
-    {
+public class SensoNew extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
     //----------------------------------------------------------------------------------------------
@@ -84,7 +83,7 @@ public class SensoNew extends LinearOpMode
     private double heading = 0;
 
 
-    private void setPower(double aPower, double bPower, double cPower, double dPower){
+    private void setPower(double aPower, double bPower, double cPower, double dPower) {
         aDrive.setPower(aPower);
         bDrive.setPower(bPower);
         cDrive.setPower(cPower);
@@ -95,19 +94,18 @@ public class SensoNew extends LinearOpMode
     public void runOpMode() {
 
 
-
-        aDrive  = hardwareMap.get(DcMotor.class, "aDrive");
-        bDrive  = hardwareMap.get(DcMotor.class, "bDrive");
-        cDrive  = hardwareMap.get(DcMotor.class, "cDrive");
-        dDrive  = hardwareMap.get(DcMotor.class, "dDrive");
+        aDrive = hardwareMap.get(DcMotor.class, "aDrive");
+        bDrive = hardwareMap.get(DcMotor.class, "bDrive");
+        cDrive = hardwareMap.get(DcMotor.class, "cDrive");
+        dDrive = hardwareMap.get(DcMotor.class, "dDrive");
 
 
         // Set up the parameters for how the IMU is going to give info
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled      = false;
+        parameters.loggingEnabled = false;
 
         //Initialize the IMU
         // Make sure it is configured on robot as IC2 port 0 "Expansion Hub Internal IMU" and named "imu"
@@ -121,10 +119,10 @@ public class SensoNew extends LinearOpMode
             heading = formatAngle(AngleUnit.DEGREES, angles.firstAngle);
 
 
-            if (heading < 90){
-                setPower(0.7,0.7,0.7,0.7);    //turn motors
-            }else{
-                setPower(0,0,0,0);    //stop motors
+            if (heading < 90) {
+                setPower(0.7, 0.7, 0.7, 0.7);    //turn motors
+            } else {
+                setPower(0, 0, 0, 0);    //stop motors
             }
 
 
@@ -140,7 +138,7 @@ public class SensoNew extends LinearOpMode
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    private double formatDegrees(double degrees){
+    private double formatDegrees(double degrees) {
         return AngleUnit.DEGREES.normalize(degrees);
     }
 }
