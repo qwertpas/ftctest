@@ -14,9 +14,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * An empty op mode serving as a template for custom OpModes
+ *
+ * BBBBBBBB           AA          DDDDDDDD
+ * BB    BB         AA AA         DD     DD
+ * BB    BB        AA   AA        DD      DD
+ * BBBBBBBB       AA     AA       DD      DD
+ * BB     BB     AA       AA      DD      DD
+ * BB     BB    AAAAAAAAAAAA      DD      DD
+ * BB    BB    AA          AA     DD     DD
+ * BBBBBBB    AA            AA    DDDDDDDD
+ *
+ *
+ *
+ *
  */
-@TeleOp(name = "Basic: Linear OpMode", group = "Linear Opmode")
+
+
+
+
+@TeleOp(name = "WeirdOpMode_Iterative", group = "Linear Opmode")
 
 @Disabled
 

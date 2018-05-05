@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import java.util.Arrays;
 
 
-@TeleOp(name = "Basic: Iterative OpMode", group = "Iterative Opmode")
+@TeleOp(name = "TeleOpMode_Iterative", group = "Iterative Opmode")
 @Disabled
 public class TeleOpMode_Iterative extends OpMode {
     // Declare OpMode members.
