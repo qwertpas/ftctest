@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "AutoOpMode", group = "Chris")
-@Disabled
+@Autonomous(name = "Forward/Back", group = "Chris")
 public class Auto2OpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;

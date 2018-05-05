@@ -25,13 +25,15 @@ public class Motors {
         this.dDrive = dDrive;
     }
 
-    public void stop() {
-        aDrive.setPower(0);
-        bDrive.setPower(0);
-        cDrive.setPower(0);
-        dDrive.setPower(0);
+    public void moveAngle(double angle, double power){
+        double degrees = Math.toRadians(angle - 45);
+        double x = Math.cos(degrees) * power;
+        double y = Math.sin(degrees) * power;
+        aDrive.setPower(-x);
+        bDrive.setPower(y);
+        cDrive.setPower(x);
+        dDrive.setPower(-y);
     }
-
 
     public void forward(double forward) {
         aDrive.setPower(-forward);

@@ -57,7 +57,6 @@ import java.util.Locale;
  */
 
 @Autonomous(name = "IMU turning", group = "Sensor")
-@Disabled
 public class SensoNew extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
@@ -115,23 +114,37 @@ public class SensoNew extends LinearOpMode {
         // Wait until we're told to go
         waitForStart();
 
-        while (opModeIsActive()) {
-            heading = formatAngle(AngleUnit.DEGREES, angles.firstAngle);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double origAngle = angles.firstAngle;
+
+        boolean done = false;
+        double setpoint = 90;
+        double error = setpoint;
+
+        while (opModeIsActive() && !done) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = angles.firstAngle - origAngle;
+            telemetry.addData("angles.firstAngle", formatAngle(AngleUnit.DEGREES, heading));
+            telemetry.update();
+
+            error = (setpoint - heading)/270;
+
+            setPower(-0.1, -0.1, -0.1, -0.1);    //turn motors
+            telemetry.addData("angles.firstAngle", formatAngle(AngleUnit.DEGREES, heading));
+            telemetry.addData("error", error);
+            telemetry.update();
 
 
-            if (heading < 90) {
-                setPower(0.7, 0.7, 0.7, 0.7);    //turn motors
-            } else {
-                setPower(0, 0, 0, 0);    //stop motors
+            telemetry.update();
+            done = true;
             }
 
 
-            telemetry.addData("Current Heading", heading);
-            telemetry.addData("angles.firstAngle", angles.firstAngle);
-
+            telemetry.addData("angles.firstAngle", formatAngle(AngleUnit.DEGREES, heading));
+            telemetry.addData("error", error);
             telemetry.update();
         }
-    }
+
 
 
     private double formatAngle(AngleUnit angleUnit, double angle) {

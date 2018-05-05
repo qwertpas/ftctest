@@ -7,9 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "AutooOpMode", group = "Chris")
-@Disabled
-public class Auto1OpMode_Linear extends LinearOpMode {
+@Autonomous(name = "AutoSquareOpMode_Linear", group = "Chris")
+public class AutoSquareOpMode_Linear extends LinearOpMode {
 
     private DcMotor aDrive = null;
     private DcMotor bDrive = null;
@@ -60,7 +59,7 @@ public class Auto1OpMode_Linear extends LinearOpMode {
         timer.reset();
         while (timer.time() < 1) {
         }
-        moto.stop();
+        moto.clearmotors();
 
         moto.right(0.3);
         timer.reset();

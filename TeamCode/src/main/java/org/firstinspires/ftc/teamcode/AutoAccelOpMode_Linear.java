@@ -6,15 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "AutooOpMode", group = "Chris")
+@Autonomous(name = "AutoAccelOpMode_Linear", group = "Chris")
 public class AutoAccelOpMode_Linear extends LinearOpMode {
 
-    private DcMotor aDrive = null;
-    private DcMotor bDrive = null;
-    private DcMotor cDrive = null;
-    private DcMotor dDrive = null;
     private Motors moto = null;
-
 
     private ElapsedTime timer = new ElapsedTime();
 
@@ -38,25 +33,16 @@ public class AutoAccelOpMode_Linear extends LinearOpMode {
         waitForStart(); //wait until button is pressed
         timer.reset();
 
+        //increase power up to 0.6 over 0.6 seconds
         for (double power = 0 ; power < 0.6 ; power = power + 0.05){
             moto.forward(power);
             timer.reset();
             while (timer.time() < 0.05) {}
         }
+        pause(2); // at 0.6 power
 
-        timer.reset();
-        while (timer.time() < 2) {}
-        moto.stop();
-
+        //set motor powers back to zero
         moto.clearmotors();
-
-//
-//
-//        pause(3);   //pause for 3 seconds
-//
-//
-//        setPowerTime(-0.7,-0.7,-0.7,-0.7,3);    //spin clockwise for 3 seconds
-
 
     }
 
