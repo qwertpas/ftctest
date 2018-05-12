@@ -40,32 +40,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-/**
- * {@link AutoFODOpMode_Linear} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
- * <p>
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- *
- * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
- */
 
 @Autonomous(name = "AutoFODOpMode_Linear", group = "chris")
 public class AutoFODOpMode_Linear extends LinearOpMode {
-    //----------------------------------------------------------------------------------------------
-    // State
-    //----------------------------------------------------------------------------------------------
 
     // The IMU sensor object
     BNO055IMU imu;
 
     // State used for updating telemetryAutoIMUOpMode_Linear
     Orientation angles;
-    Acceleration gravity;
-
-    //----------------------------------------------------------------------------------------------
-    // Main logic
-    //----------------------------------------------------------------------------------------------
-
 
     private DcMotor aDrive = null;
     private DcMotor bDrive = null;
@@ -73,7 +56,6 @@ public class AutoFODOpMode_Linear extends LinearOpMode {
     private DcMotor dDrive = null;
 
     private double heading = 0;
-
 
     private void setPower(double aPower, double bPower, double cPower, double dPower) {
         aDrive.setPower(aPower);
@@ -104,9 +86,7 @@ public class AutoFODOpMode_Linear extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        Motors moto = null;
-
-        moto = new Motors(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
+        Motors moto = new Motors(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
 
         moto.clearmotors();
         // Wait until we're told to go
@@ -119,11 +99,12 @@ public class AutoFODOpMode_Linear extends LinearOpMode {
         //loop of turning
         while (opModeIsActive()) {
 
+            //get update heading
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             heading = angles.firstAngle - origAngle;
 
-
-            moto.moveGlobalAngle(0,-heading, 0.2);
+            //Uses FOD
+            moto.moveGlobalAngle(0, heading, 0.2);
 
 
             telemetry.addData("heading", formatAngle(AngleUnit.DEGREES, heading));

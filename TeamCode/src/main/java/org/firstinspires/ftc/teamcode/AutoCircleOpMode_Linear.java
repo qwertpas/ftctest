@@ -65,15 +65,6 @@ public class AutoCircleOpMode_Linear extends LinearOpMode {
 
 
         moto.clearmotors();
-
-//
-//
-//        pause(3);   //pause for 3 seconds
-//
-//
-//        setPowerTime(-0.7,-0.7,-0.7,-0.7,3);    //spin clockwise for 3 seconds
-
-
     }
 
 }
