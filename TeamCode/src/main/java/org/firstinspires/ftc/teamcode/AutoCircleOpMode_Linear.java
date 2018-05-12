@@ -56,7 +56,7 @@ public class AutoCircleOpMode_Linear extends LinearOpMode {
 
 
         for (double angle = 0 ; angle < 360 ; angle = angle + 1){
-            moto.moveAngle(angle,0.3);
+            moto.moveLocalAngle(angle,0.3);
             timer.reset();
             while (timer.time() < (6/360)) {}
         }

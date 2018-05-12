@@ -25,7 +25,23 @@ public class Motors {
         this.dDrive = dDrive;
     }
 
-    public void moveAngle(double angle, double power){
+    public void moveGlobalAngle(double angle, double heading, double power){
+        //move the robot in an angle relative to the field
+        double radians = Math.toRadians(angle - 45);
+
+        double[] cartesianCoords = Calculate.polarToCartesian(power, radians,true);
+        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], heading,false,true);
+
+        double x = globalVector[0];
+        double y = globalVector[1];
+        aDrive.setPower(-x);
+        bDrive.setPower(y);
+        cDrive.setPower(x);
+        dDrive.setPower(-y);
+    }
+
+    public void moveLocalAngle(double angle, double power){
+        //move the robot in an angle relative to the robot's heading
         double degrees = Math.toRadians(angle - 45);
         double x = Math.cos(degrees) * power;
         double y = Math.sin(degrees) * power;
