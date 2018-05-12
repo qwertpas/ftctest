@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 
 /**
  * Created by leshaseletskiy on 4/21/18.
@@ -25,22 +27,24 @@ public class Motors {
         this.dDrive = dDrive;
     }
 
-    public void moveGlobalAngle(double angle, double heading, double power){
+    public void moveGlobalAngle(double angle, double heading, double power) {
         //move the robot in an angle relative to the field
         double radians = Math.toRadians(angle - 45);
 
-        double[] cartesianCoords = Calculate.polarToCartesian(power, radians,true);
-        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], heading,false,true);
+        double[] cartesianCoords = Calculate.polarToCartesian(power, radians, true);
+        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], heading, false, true);
 
         double x = globalVector[0];
         double y = globalVector[1];
+
+
         aDrive.setPower(-x);
         bDrive.setPower(y);
         cDrive.setPower(x);
         dDrive.setPower(-y);
     }
 
-    public void moveLocalAngle(double angle, double power){
+    public void moveLocalAngle(double angle, double power) {
         //move the robot in an angle relative to the robot's heading
         double degrees = Math.toRadians(angle - 45);
         double x = Math.cos(degrees) * power;
@@ -49,6 +53,17 @@ public class Motors {
         bDrive.setPower(y);
         cDrive.setPower(x);
         dDrive.setPower(-y);
+    }
+
+    public void moveLocalAngle2(double angle, double power) {
+        //move the robot in an angle relative to the robot's heading
+        double degrees = Math.toRadians(angle - 45);
+        double x = Math.cos(degrees) * power;
+        double y = Math.sin(degrees) * power;
+        aDrive.setPower(-x + 0.08);
+        bDrive.setPower(y + 0.08);
+        cDrive.setPower(x + 0.08);
+        dDrive.setPower(-y + 0.08);
     }
 
     public void forward(double forward) {

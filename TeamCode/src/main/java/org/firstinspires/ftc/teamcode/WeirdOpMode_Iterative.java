@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
  * BBBBBBBB           AA          DDDDDDDD
  * BB    BB         AA AA         DD     DD
  * BB    BB        AA   AA        DD      DD
@@ -23,13 +22,7 @@ import java.util.Date;
  * BB     BB    AAAAAAAAAAAA      DD      DD
  * BB    BB    AA          AA     DD     DD
  * BBBBBBB    AA            AA    DDDDDDDD
- *
- *
- *
- *
  */
-
-
 
 
 @TeleOp(name = "WeirdOpMode_Iterative", group = "Linear Opmode")
@@ -51,8 +44,8 @@ public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener
     private float[] mGeomagnetic;   // latest sensor values
 
     /*
-    * Constructor
-    */
+     * Constructor
+     */
     public WeirdOpMode_Iterative() {
 
     }
@@ -63,9 +56,9 @@ public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener
     }
 
     /*
-    * Code to run when the op mode is first enabled goes here
-    * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-    */
+     * Code to run when the op mode is first enabled goes here
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+     */
     @Override
     public void start() {
         startDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
@@ -100,9 +93,9 @@ public class WeirdOpMode_Iterative extends OpMode implements SensorEventListener
     }
 
     /*
-    * Code to run when the op mode is first disabled goes here
-    * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
-    */
+     * Code to run when the op mode is first disabled goes here
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
+     */
     @Override
     public void stop() {
         mSensorManager.unregisterListener(this);

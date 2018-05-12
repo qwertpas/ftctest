@@ -54,7 +54,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 
-@Autonomous(name = "AutoIMUPrintingOpMode_Linear" , group = "Sensor")
+@Autonomous(name = "AutoIMUPrintingOpMode_Linear", group = "Sensor")
 public class AutoIMUPrintingOpMode_Linear extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
@@ -122,7 +122,7 @@ public class AutoIMUPrintingOpMode_Linear extends LinearOpMode {
         while (opModeIsActive()) {
 
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("thing" , formatAngle(angles.angleUnit, angles.firstAngle));
+            telemetry.addData("thing", formatAngle(angles.angleUnit, angles.firstAngle));
 
 
             telemetry.update();

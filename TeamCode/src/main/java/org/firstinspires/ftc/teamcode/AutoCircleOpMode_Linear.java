@@ -19,7 +19,8 @@ public class AutoCircleOpMode_Linear extends LinearOpMode {
     private ElapsedTime timer = new ElapsedTime();
 
     private void pause(double seconds) {
-        while (timer.time() < seconds) {}
+        while (timer.time() < seconds) {
+        }
         timer.reset();
     }
 
@@ -55,13 +56,12 @@ public class AutoCircleOpMode_Linear extends LinearOpMode {
         timer.reset();
 
 
-        for (double angle = 0 ; angle < 360 ; angle = angle + 1){
-            moto.moveLocalAngle(angle,0.3);
+        for (double angle = 0; angle < 360; angle = angle + 1) {
+            moto.moveLocalAngle(angle, 0.3);
             timer.reset();
-            while (timer.time() < (6/360)) {}
+            while (timer.time() < (6 / 360)) {
+            }
         }
-
-
 
 
         moto.clearmotors();

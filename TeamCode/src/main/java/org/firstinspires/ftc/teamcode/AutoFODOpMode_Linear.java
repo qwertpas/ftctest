@@ -41,7 +41,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
- * {@link AutoIMUOpMode_Linear} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
+ * {@link AutoFODOpMode_Linear} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
  * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
@@ -49,8 +49,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 
-@Autonomous(name = "AutoIMUOpMode_Linear", group = "Sensor")
-public class AutoIMUOpMode_Linear extends LinearOpMode {
+@Autonomous(name = "AutoFODOpMode_Linear", group = "chris")
+public class AutoFODOpMode_Linear extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
     //----------------------------------------------------------------------------------------------
@@ -104,35 +104,29 @@ public class AutoIMUOpMode_Linear extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        Motors moto = null;
+
+        moto = new Motors(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
+
+        moto.clearmotors();
         // Wait until we're told to go
         waitForStart();
 
-        //get initial data for loop of turning
-        double target = 90;
-        double maxPower = 1;
+
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double origAngle = angles.firstAngle;
-        boolean done = false;
-        double error = target;
         //loop of turning
-        while (opModeIsActive() && !done) {
-            if (Math.abs(90 - heading) < 90) {
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                heading = angles.firstAngle - origAngle;
+        while (opModeIsActive()) {
 
-                //get the distance to target and divide by a constant for a reasonable motor power
-                //the "(Math.abs(target) + 180) / maxPower" is so that it never surpasses maxPower
-                error = (target - heading) / ((Math.abs(target) + 180) / maxPower);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = angles.firstAngle - origAngle;
 
-                setPower(-error, -error, -error, -error);    //turn motors
 
-            } else {
-                done = true;
-            }
+            moto.moveGlobalAngle(0,-heading, 0.2);
+
 
             telemetry.addData("heading", formatAngle(AngleUnit.DEGREES, heading));
-            telemetry.addData("error", error);
             telemetry.update();
         }
     }

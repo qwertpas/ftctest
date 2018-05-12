@@ -20,7 +20,8 @@ public class AutoSquareOpMode_Linear extends LinearOpMode {
     private ElapsedTime timer = new ElapsedTime();
 
     private void pause(double seconds) {
-        while (timer.time() < seconds) {}
+        while (timer.time() < seconds) {
+        }
         timer.reset();
     }
 

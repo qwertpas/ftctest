@@ -20,8 +20,6 @@ public class AutoAccelOpMode_Linear extends LinearOpMode {
     }
 
 
-
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -34,10 +32,11 @@ public class AutoAccelOpMode_Linear extends LinearOpMode {
         timer.reset();
 
         //increase power up to 0.6 over 0.6 seconds
-        for (double power = 0 ; power < 0.6 ; power = power + 0.05){
+        for (double power = 0; power < 0.6; power = power + 0.05) {
             moto.forward(power);
             timer.reset();
-            while (timer.time() < 0.05) {}
+            while (timer.time() < 0.05) {
+            }
         }
         pause(2); // at 0.6 power
 

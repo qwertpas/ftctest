@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
 
-
 public class Calculate {
 
 
-    public static double[] polarToCartesian (double magnitude, double angle, boolean inRadians){
+    public static double[] polarToCartesian(double magnitude, double angle, boolean inRadians) {
         //converts a power and angle to x and y coordinates
         double radians;
-        if(inRadians){
+        if (inRadians) {
             radians = angle;
-        }else{
+        } else {
             radians = Math.toRadians(angle);
         }
-        return new double[] {magnitude * Math.cos(radians), magnitude * Math.sin(radians)};
+        return new double[]{magnitude * Math.cos(radians), magnitude * Math.sin(radians)};
     }
 
     public static double[] circleToSquare(double u, double v) {
@@ -31,7 +30,7 @@ public class Calculate {
         double termy2 = subtermy - v * twosqrt2;
         double x = (0.5 * Math.sqrt(termx1) - 0.5 * Math.sqrt(termx2));
         double y = (0.5 * Math.sqrt(termy1) - 0.5 * Math.sqrt(termy2));
-        return new double[] {x, y};
+        return new double[]{x, y};
     }
 
     public static double[] squareToCircle(double x, double y) {
@@ -40,7 +39,7 @@ public class Calculate {
 
         double u = x * Math.sqrt(1 - y * y / 2);
         double v = y * Math.sqrt(1 - x * x / 2);
-        return new double[] {u, v};
+        return new double[]{u, v};
     }
 
 
@@ -52,11 +51,11 @@ public class Calculate {
         double localV;
 
         //if not a circle coordinate, convert to circle
-        if(inputSquare){
+        if (inputSquare) {
             double[] coord = squareToCircle(x, y);
             localU = coord[0];
             localV = coord[1];
-        }else{
+        } else {
             localU = x;
             localV = y;
         }
@@ -68,10 +67,10 @@ public class Calculate {
         double globalY = 0.0001 * (Math.round((localV * Math.cos(rotAngle) + localU * Math.sin(rotAngle)) * 10000));
 
         //output as requested
-        if(outputSquare){
+        if (outputSquare) {
             return circleToSquare(globalX, globalY);
-        }else{
-            return new double[] {globalX, globalY};
+        } else {
+            return new double[]{globalX, globalY};
         }
     }
 

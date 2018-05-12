@@ -119,7 +119,7 @@ public class TeleOpMode_Iterative extends OpMode {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        coordPowers = Calculate.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y, angles.firstAngle);
+//        coordPowers = Calculate.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y, angles.firstAngle);
 
         movementAngle = Math.atan2(coordPowers[1], coordPowers[0]);
 
