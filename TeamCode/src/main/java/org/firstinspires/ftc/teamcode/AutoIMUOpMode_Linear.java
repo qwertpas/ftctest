@@ -40,20 +40,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-/**
- * {@link AutoIMUOpMode_Linear} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
- * <p>
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- *
- * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
- */
-
 @Autonomous(name = "AutoIMUOpMode_Linear", group = "Sensor")
 public class AutoIMUOpMode_Linear extends LinearOpMode {
-    //----------------------------------------------------------------------------------------------
-    // State
-    //----------------------------------------------------------------------------------------------
 
     // The IMU sensor object
     BNO055IMU imu;
@@ -62,34 +50,13 @@ public class AutoIMUOpMode_Linear extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
 
-    //----------------------------------------------------------------------------------------------
-    // Main logic
-    //----------------------------------------------------------------------------------------------
-
-
-    private DcMotor aDrive = null;
-    private DcMotor bDrive = null;
-    private DcMotor cDrive = null;
-    private DcMotor dDrive = null;
-
     private double heading = 0;
 
-
-    private void setPower(double aPower, double bPower, double cPower, double dPower) {
-        aDrive.setPower(aPower);
-        bDrive.setPower(bPower);
-        cDrive.setPower(cPower);
-        dDrive.setPower(dPower);
-    }
 
     @Override
     public void runOpMode() {
 
-
-        aDrive = hardwareMap.get(DcMotor.class, "aDrive");
-        bDrive = hardwareMap.get(DcMotor.class, "bDrive");
-        cDrive = hardwareMap.get(DcMotor.class, "cDrive");
-        dDrive = hardwareMap.get(DcMotor.class, "dDrive");
+        Motors2 motors = new Motors2(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
 
 
         // Set up the parameters for how the IMU is going to give info
@@ -115,26 +82,29 @@ public class AutoIMUOpMode_Linear extends LinearOpMode {
         double origAngle = angles.firstAngle;
         boolean done = false;
         double error = target;
+
         //loop of turning
         while (opModeIsActive() && !done) {
-            if (Math.abs(90 - heading) < 90) {
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                heading = angles.firstAngle - origAngle;
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = angles.firstAngle - origAngle;
 
-                //get the distance to target and divide by a constant for a reasonable motor power
-                //the "(Math.abs(target) + 180) / maxPower" is so that it never surpasses maxPower
-                error = (target - heading) / ((Math.abs(target) + 180) / maxPower);
-
-                setPower(-error, -error, -error, -error);    //turn motors
-
-            } else {
+            if(heading < 85){
+                motors.setPowers(0.2,0.2,0.2,0.2);
+            } else if(heading > 95){
+                motors.setPowers(-0.2,-0.2,-0.2,-0.2);
+            }else{
+                motors.stop();
                 done = true;
             }
 
+            motors.execute();
+
+            error = heading - target;
             telemetry.addData("heading", formatAngle(AngleUnit.DEGREES, heading));
             telemetry.addData("error", error);
             telemetry.update();
         }
+
     }
 
 

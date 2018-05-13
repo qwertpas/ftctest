@@ -70,13 +70,28 @@ public class Motors2 {
         dPower = -y + spin;
     }
 
-    //zeros them out (stops drivetrain)
-    public void clearmotors() {
+    //zeros them out (stops drivetrain if execute() is run)
+    public void clear() {
         aDrive.setPower(0);
         bDrive.setPower(0);
         cDrive.setPower(0);
         dDrive.setPower(0);
+        execute();
     }
+
+    //stops and closes motors entirely
+    public void stop() {
+        aDrive.setPower(0);
+        bDrive.setPower(0);
+        cDrive.setPower(0);
+        dDrive.setPower(0);
+        execute();
+        aDrive.close();
+        bDrive.close();
+        cDrive.close();
+        dDrive.close();
+    }
+
 
     public void setPowers(double aPower, double bPower, double cPower, double dPower) {
         this.aPower = aPower;

@@ -14,7 +14,7 @@ public class AutoCircleSpinOpMode_Linear extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Motors2 motors = new Motors2(hardwareMap.get(DcMotor.class, "aDrive"), hardwareMap.get(DcMotor.class, "bDrive"), hardwareMap.get(DcMotor.class, "cDrive"), hardwareMap.get(DcMotor.class, "dDrive"));
-        motors.clearmotors();
+        motors.clear();
 
         waitForStart(); //wait until button is pressed
         ElapsedTime runtime = new ElapsedTime();
@@ -23,6 +23,7 @@ public class AutoCircleSpinOpMode_Linear extends LinearOpMode {
         //Revolute and Rotate for 6 seconds (0.3 revolute, 0.08 spin)
         for (double angle = 0; angle < 360; angle = angle + 1) {
             motors.moveLocalAngle(angle, 0.3, 0.08);
+            motors.execute();
             timer.reset();
             while (timer.time() < (6 / 360)) {}
 
@@ -30,9 +31,9 @@ public class AutoCircleSpinOpMode_Linear extends LinearOpMode {
             telemetry.addData("Angle", angle);
             telemetry.addLine();
             telemetry.addData("Runtime", runtime);
+            telemetry.update();
         }//end of circle
 
-        motors.clearmotors();
-
+        motors.stop();
     }//end of OpMode
 }//end of Class
