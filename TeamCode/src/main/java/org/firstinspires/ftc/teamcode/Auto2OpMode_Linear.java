@@ -19,11 +19,15 @@ public class Auto2OpMode_Linear extends LinearOpMode {
     private double cPowerSent = 0;
     private double dPowerSent = 0;
 
-    private ElapsedTime timer = new ElapsedTime();
+    ElapsedTime timer = new ElapsedTime();
 
-    private void pause(double seconds) {
-        timer.reset();
-        while (timer.time() < seconds) {
+
+
+    public static void pause(double seconds) {
+        ElapsedTime timerthing = new ElapsedTime();
+
+        timerthing.reset();
+        while (timerthing.time() < seconds) {
         }
     }
 
