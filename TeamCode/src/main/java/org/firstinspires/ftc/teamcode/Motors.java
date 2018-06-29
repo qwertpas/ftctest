@@ -51,7 +51,7 @@ public class Motors {
         dDrive.setPower(-y);
     }
 
-    public void moveLocalAngleSpin(double angle, double power, double spin) {
+    public void moveLocalAngle(double angle, double power, double spin) {
         //move the robot in an angle relative to the robot's heading and spin at the same time
         double degrees = Math.toRadians(angle - 45);
         double x = Math.cos(degrees) * power;

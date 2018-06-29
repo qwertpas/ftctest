@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+//HELPER CLASS
 
 //this is a bit different from regular Motors class because you have to call execute to actually send the power to the motors
 //This is more convenient when you want the drivetrain to do multiple things at once such as move in circle while spinning

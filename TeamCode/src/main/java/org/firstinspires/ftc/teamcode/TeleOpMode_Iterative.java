@@ -46,8 +46,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import java.util.Arrays;
 
 
-@TeleOp(name = "TeleOpMode_Iterative", group = "Iterative Opmode")
-@Disabled
+@TeleOp(name = "TeleOpMode_Iterative", group = "Chris")
 public class TeleOpMode_Iterative extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -56,8 +55,8 @@ public class TeleOpMode_Iterative extends OpMode {
     private DcMotor cDrive = null;
     private DcMotor dDrive = null;
 
-    BNO055IMU imu;
-    Orientation angles;
+    private BNO055IMU imu;
+    private Orientation angles;
 
 
     private double aPower = 0;
@@ -119,7 +118,7 @@ public class TeleOpMode_Iterative extends OpMode {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-//        coordPowers = Calculate.calculateFOD(gamepad1.left_stick_x, -gamepad1.left_stick_y, angles.firstAngle);
+        coordPowers = Calculate.FOD(gamepad1.left_stick_x, -gamepad1.left_stick_y, angles.firstAngle, true, true);
 
         movementAngle = Math.atan2(coordPowers[1], coordPowers[0]);
 

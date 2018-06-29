@@ -1,9 +1,44 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class Calculate {
 
+//DRIVE
+    public static double[] FOD(double x, double y, double gyroAngle, boolean inputSquare, boolean outputSquare) {
+        //input the components of the vector (in circle or square) in which you want to robot to go and the heading of the robot
+        //outputs the relative x and y to the global coordinate plane (circle or square)
 
+        double localU;
+        double localV;
+
+        //if not a circle coordinate, convert to circle
+        if (inputSquare) {
+            double[] coord = squareToCircle(x, y);
+            localU = coord[0];
+            localV = coord[1];
+        } else {
+            localU = x;
+            localV = y;
+        }
+
+        //does rotation in circled coordinate plane because rotation is a circle
+        //uses the rotate point around origin formula
+        double rotAngle = -Math.toRadians(gyroAngle);
+        double globalX = 0.0001 * (Math.round((localU * Math.cos(rotAngle) - localV * Math.sin(rotAngle)) * 10000));
+        double globalY = 0.0001 * (Math.round((localV * Math.cos(rotAngle) + localU * Math.sin(rotAngle)) * 10000));
+
+        //output as requested
+        if (outputSquare) {
+            return circleToSquare(globalX, globalY);
+        } else {
+            return new double[]{globalX, globalY};
+        }
+    }
+
+
+//COORDINATE PLANE
     public static double[] polarToCartesian(double magnitude, double angle, boolean inRadians) {
         //converts a power and angle to x and y coordinates
         double radians;
@@ -43,36 +78,13 @@ public class Calculate {
     }
 
 
-    public static double[] FOD(double x, double y, double gyroAngle, boolean inputSquare, boolean outputSquare) {
-        //input the components of the vector (in circle or square) in which you want to robot to go and the heading of the robot
-        //outputs the relative x and y to the global coordinate plane (circle or square)
-
-        double localU;
-        double localV;
-
-        //if not a circle coordinate, convert to circle
-        if (inputSquare) {
-            double[] coord = squareToCircle(x, y);
-            localU = coord[0];
-            localV = coord[1];
-        } else {
-            localU = x;
-            localV = y;
-        }
-
-        //does rotation in circled coordinate plane because rotation is a circle
-        //uses the rotate point around origin formula
-        double rotAngle = -Math.toRadians(gyroAngle);
-        double globalX = 0.0001 * (Math.round((localU * Math.cos(rotAngle) - localV * Math.sin(rotAngle)) * 10000));
-        double globalY = 0.0001 * (Math.round((localV * Math.cos(rotAngle) + localU * Math.sin(rotAngle)) * 10000));
-
-        //output as requested
-        if (outputSquare) {
-            return circleToSquare(globalX, globalY);
-        } else {
-            return new double[]{globalX, globalY};
-        }
+//ANGLES
+    public static double normalizeAngle(double degrees) {
+        //Takes any degree angle and converts it to between -179 and +180 degrees
+        return AngleUnit.DEGREES.normalize(degrees);
     }
+
+
 
 
 }
