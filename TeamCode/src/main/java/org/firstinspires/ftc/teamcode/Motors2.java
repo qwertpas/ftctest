@@ -73,6 +73,7 @@ public class Motors2 {
 
     public void moveGlobalXY(double globalX, double globalY, double robotHeading, double spin) {
         //move the robot in an vector (component form) relative to the field
+        // PROBABLY NAN!!! (DOESN'T WORK)
 
         double[] polarCoords = Calculate.cartesianToPolar(globalX, globalY); //outputs magnitude, direction
         double radians = Math.toRadians(polarCoords[1] - 45);
@@ -87,8 +88,8 @@ public class Motors2 {
     }
 
     public void moveGlobalVector(double xComp, double yComp, double heading, double spin) {
-        //IDK what the difference is to moveGlobalXY
-        double[] globalVector = Calculate.FOD(xComp, yComp, heading + 45, true, true); //heading is positive for ev3 but for REV expansion its negative
+        //better than moveGLobalXY
+        double[] globalVector = Calculate.FOD(xComp, yComp, -heading - 45, true, true); //heading is positive for ev3 but for REV expansion its negative
         double x = globalVector[0];
         double y = globalVector[1];
         aPower = -x + spin;
