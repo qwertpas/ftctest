@@ -39,15 +39,26 @@ public class Calculate {
 
 
 //COORDINATE PLANE
-    public static double[] polarToCartesian(double magnitude, double angle, boolean inRadians) {
+    public static double[] polarToCartesian(double magnitude, double angle, boolean angleInRadians) {
         //converts a power and angle to x and y coordinates
+        //output: x, y
         double radians;
-        if (inRadians) {
+        if (angleInRadians) {
             radians = angle;
         } else {
             radians = Math.toRadians(angle);
         }
-        return new double[]{magnitude * Math.cos(radians), magnitude * Math.sin(radians)};
+        return new double[] {magnitude * Math.cos(radians), magnitude * Math.sin(radians)};
+    }
+
+    public static double[] cartesianToPolar(double x, double y) {
+        //converts x and y coordinates to power and angle
+        //output: magnitude, direction
+        double radians = Math.atan2(y,x); //get diretion (but it outputs in radians)
+        double degrees = Math.toDegrees(radians); //convert to degrees
+        double magnitude = Math.sqrt(x*x + y*y); //pythagorean theorem
+
+        return new double[] {magnitude, degrees};
     }
 
     public static double[] circleToSquare(double u, double v) {

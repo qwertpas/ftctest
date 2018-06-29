@@ -48,10 +48,10 @@ public class Motors2 {
         //THE SETTERS ##################################################
 
     //move the robot in an angle relative to the field
-    public void moveGlobalAngle(double angle, double heading, double power, double spin) {
-        double radians = Math.toRadians(angle - 45);
+    public void moveGlobalAngle(double desiredAngle, double robotHeading, double power, double spin) {
+        double radians = Math.toRadians(desiredAngle - 45);
         double[] cartesianCoords = Calculate.polarToCartesian(power, radians, true);
-        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], -heading, false, true);
+        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], -robotHeading, false, true);
         double x = globalVector[0];
         double y = globalVector[1];
         aPower = -x + spin;
@@ -65,6 +65,21 @@ public class Motors2 {
         double degrees = Math.toRadians(angle - 45);
         double x = Math.cos(degrees) * power;
         double y = Math.sin(degrees) * power;
+        aPower = -x + spin;
+        bPower = y + spin;
+        cPower = x + spin;
+        dPower = -y + spin;
+    }
+
+    public void moveGlobalXY(double globalX, double globalY, double robotHeading, double spin) {
+        //move the robot in an vector (component form) relative to the field
+
+        double[] polarCoords = Calculate.cartesianToPolar(globalX, globalY); //outputs magnitude, direction
+        double radians = Math.toRadians(polarCoords[1] - 45);
+        double[] cartesianCoords = Calculate.polarToCartesian(polarCoords[0], radians, true);
+        double[] globalVector = Calculate.FOD(cartesianCoords[0], cartesianCoords[1], -robotHeading, false, true);
+        double x = globalVector[0];
+        double y = globalVector[1];
         aPower = -x + spin;
         bPower = y + spin;
         cPower = x + spin;
