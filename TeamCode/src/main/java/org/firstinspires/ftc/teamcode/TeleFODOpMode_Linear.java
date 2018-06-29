@@ -83,7 +83,7 @@ public class TeleFODOpMode_Linear extends LinearOpMode {
             heading = imu.getHeading();
 
             //Uses FOD and MAAAATTTTHHH
-            moto.moveGlobalXY(gamepad1.left_stick_x * 0.2,
+            moto.moveGlobalVector(gamepad1.left_stick_x * 0.2,
                               gamepad1.left_stick_y * 0.2,
                               heading,
                               gamepad1.right_stick_x * 0.1);

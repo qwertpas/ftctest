@@ -86,6 +86,17 @@ public class Motors2 {
         dPower = -y + spin;
     }
 
+    public void moveGlobalVector(double xComp, double yComp, double heading, double spin) {
+        //IDK what the difference is to moveGlobalXY
+        double[] globalVector = Calculate.FOD(xComp, yComp, heading + 45, true, true); //heading is positive for ev3 but for REV expansion its negative
+        double x = globalVector[0];
+        double y = globalVector[1];
+        aPower = -x + spin;
+        bPower = y + spin;
+        cPower = x + spin;
+        dPower = -y + spin;
+    }
+
     //zeros them out (stops drivetrain if execute() is run)
     public void clear() {
         aDrive.setPower(0);
