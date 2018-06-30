@@ -39,8 +39,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.util.Arrays;
 
-@Autonomous(name = "AutoFODOpMode_Linear", group = "chris")
+
+@Autonomous(name = "TeleFODOpMode_Linear", group = "chris")
 public class TeleFODOpMode_Linear extends LinearOpMode {
 
 
@@ -85,13 +87,21 @@ public class TeleFODOpMode_Linear extends LinearOpMode {
             //Uses FOD and MAAAATTTTHHH
             moto.moveGlobalVector(gamepad1.left_stick_x * 0.2,
                               gamepad1.left_stick_y * 0.2,
-                              heading,
+                              heading + 90,
                               gamepad1.right_stick_x * 0.1);
 
+            double[] powers = moto.getPowers();
+
+            if(gamepad1.y){
+                imu.resetHeading();
+            }
+
+            moto.execute();
 
 
             telemetry.addData("normieHeading", Calculate.normalizeAngle(heading));
             telemetry.addData("heading", heading);
+            telemetry.addData("Powers", Arrays.toString(powers));
 
             telemetry.update();
         }
