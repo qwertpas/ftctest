@@ -87,7 +87,7 @@ public class TeleFODOpMode_Linear extends LinearOpMode {
             //Uses FOD and MAAAATTTTHHH
             moto.moveGlobalVector(gamepad1.left_stick_x * 0.2,
                               gamepad1.left_stick_y * 0.2,
-                              heading + 90,
+                              heading + 90, //depends on motor alignment with IMU, test to figure out whether +0,90,180,270
                               gamepad1.right_stick_x * 0.1);
 
             double[] powers = moto.getPowers();
